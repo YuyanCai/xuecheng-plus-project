@@ -24,4 +24,8 @@ public interface TeachplanService {
   * @param saveTeachplanDto
   */
  public void saveTeachplan(SaveTeachplanDto saveTeachplanDto);
+
+ void delTeachplan(Long teachplanId);
+
+ void orderByUpOrDown(String moveType, Long teachplanId);
 }

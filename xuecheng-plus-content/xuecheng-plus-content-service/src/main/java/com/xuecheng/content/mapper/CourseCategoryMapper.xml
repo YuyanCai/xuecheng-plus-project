@@ -30,4 +30,8 @@
 
     </select>
 
+    <select id="selectListCourseCategoryTreeDto" resultType="com.xuecheng.content.model.dto.CourseCategoryTreeDto">
+        select * from course_category
+    </select>
+
 </mapper>

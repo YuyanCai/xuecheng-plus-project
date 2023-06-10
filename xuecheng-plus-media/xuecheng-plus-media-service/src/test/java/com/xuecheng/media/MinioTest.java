@@ -23,7 +23,7 @@ public class MinioTest {
 
     MinioClient minioClient =
             MinioClient.builder()
-                    .endpoint("http://192.168.101.65:9000")
+                    .endpoint("http://localhost:9000")
                     .credentials("minioadmin", "minioadmin")
                     .build();
 
@@ -72,14 +72,15 @@ public class MinioTest {
     public void test_getFile() throws Exception {
 
         GetObjectArgs getObjectArgs = GetObjectArgs.builder().bucket("testbucket").object("test/01/1.mp4").build();
-
+        //查询远程服务获取到一个流对象
         FilterInputStream inputStream = minioClient.getObject(getObjectArgs);
         //指定输出流
         FileOutputStream outputStream = new FileOutputStream(new File("D:\\develop\\upload\\1a.mp4"));
         IOUtils.copy(inputStream,outputStream);
 
         //校验文件的完整性对文件的内容进行md5
-        String source_md5 = DigestUtils.md5Hex(inputStream);//minio中文件的md5
+        FileInputStream fileInputStream1 = new FileInputStream(new File("D:\\develop\\upload\\1.mp4"));
+        String source_md5 = DigestUtils.md5Hex(fileInputStream1);
         FileInputStream fileInputStream = new FileInputStream(new File("D:\\develop\\upload\\1a.mp4"));
         String local_md5 = DigestUtils.md5Hex(fileInputStream);
         if(source_md5.equals(local_md5)){
@@ -89,20 +90,9 @@ public class MinioTest {
     }
 
 
-    @Test
-    public void test_md5() throws Exception {
-
-        //校验文件的完整性对文件的内容进行md5
-        FileInputStream fileInputStream1 = new FileInputStream(new File("D:\\develop\\upload\\02-概述-分库分表是什么.avi"));
-        String source_md5 = DigestUtils.md5Hex(fileInputStream1);//minio中文件的md5
-        FileInputStream fileInputStream2 = new FileInputStream(new File("D:\\develop\\upload\\1a.mp4"));
-        String local_md5 = DigestUtils.md5Hex(fileInputStream2);
-        if(source_md5.equals(local_md5)){
-            System.out.println("下载成功");
-        }
 
 
-    }
+
 
 
 
